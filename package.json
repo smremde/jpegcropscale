@@ -1,6 +1,6 @@
 {
   "name": "@smremde/jpegcropscale",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "High-performance JPEG crop and power-of-two downscale library powered by libjpeg-turbo compiled to WebAssembly.",
   "main": "index.js",
   "scripts": {
@@ -26,10 +26,11 @@
     "jpeg_worker.wasm",
     "README.md"
   ],
+  "repository": "github:smremde/jpegcropscale",
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
-    "semantic-release": "^21.0.7"
+    "semantic-release": "^25.0.5"
   },
   "release": {
     "branches": [
