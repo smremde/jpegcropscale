@@ -11,6 +11,12 @@ on:
       - main
       - master
 
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+  id-token: write
+
 jobs:
   test-and-release:
     runs-on: ubuntu-latest
@@ -27,7 +33,7 @@ jobs:
         with:
           node-version: 24
           cache: 'npm'
-          cache-dependency-path: package.json
+          registry-url: https://registry.npmjs.org
 
       - name: Install Dependencies
         run: npm install
