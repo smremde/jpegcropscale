@@ -1,13 +1,3 @@
-# GITHUB ACTIONS AUTOMATION WORKFLOW
-#
-# NOTE: GitHub Actions only reads workflow files located at the ROOT of the repository.
-# Once you stage these changes, please MOVE this file from:
-#   src/lib/.github/workflows/release.yml
-# to the repository root directory:
-#   .github/workflows/release.yml
-#
-# E.g. command from repository root:
-#   mkdir -p .github/workflows && mv src/lib/.github/workflows/release.yml .github/workflows/release.yml
 
 name: Test & Release Package
 
@@ -24,11 +14,6 @@ on:
 jobs:
   test-and-release:
     runs-on: ubuntu-latest
-
-    # Set the default working directory for all run steps to our package directory
-    defaults:
-      run:
-        working-directory: src/lib
 
     steps:
       - name: Checkout Code
