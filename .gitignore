@@ -1,0 +1,11 @@
+# Test outputs
+test/output.jpg
+test/output_crop.jpg
+
+# Node modules
+node_modules/
+
+# OS/IDE files
+.DS_Store
+.vscode/
+.idea/

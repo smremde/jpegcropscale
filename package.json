@@ -1,0 +1,67 @@
+{
+  "name": "@smremde/jpegcropscale",
+  "version": "1.0.0",
+  "description": "High-performance JPEG crop and power-of-two downscale library powered by libjpeg-turbo compiled to WebAssembly.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test/test.js"
+  },
+  "keywords": [
+    "jpeg",
+    "crop",
+    "scale",
+    "downscale",
+    "resize",
+    "wasm",
+    "webassembly",
+    "libjpeg-turbo",
+    "turbojpeg",
+    "performance"
+  ],
+  "author": "Stephen Remde",
+  "license": "MIT",
+  "files": [
+    "index.js",
+    "jpeg_worker.js",
+    "jpeg_worker.wasm",
+    "README.md"
+  ],
+  "devDependencies": {
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "semantic-release": "^21.0.7"
+  },
+  "release": {
+    "branches": [
+      "main",
+      "master"
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/changelog",
+        {
+          "changelogFile": "CHANGELOG.md"
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "npmPublish": true
+        }
+      ],
+      [
+        "@semantic-release/git",
+        {
+          "assets": [
+            "package.json",
+            "CHANGELOG.md"
+          ],
+          "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+        }
+      ],
+      "@semantic-release/github"
+    ]
+  }
+}

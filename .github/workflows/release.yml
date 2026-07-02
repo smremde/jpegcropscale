@@ -1,0 +1,58 @@
+# GITHUB ACTIONS AUTOMATION WORKFLOW
+#
+# NOTE: GitHub Actions only reads workflow files located at the ROOT of the repository.
+# Once you stage these changes, please MOVE this file from:
+#   src/lib/.github/workflows/release.yml
+# to the repository root directory:
+#   .github/workflows/release.yml
+#
+# E.g. command from repository root:
+#   mkdir -p .github/workflows && mv src/lib/.github/workflows/release.yml .github/workflows/release.yml
+
+name: Test & Release Package
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  test-and-release:
+    runs-on: ubuntu-latest
+
+    # Set the default working directory for all run steps to our package directory
+    defaults:
+      run:
+        working-directory: src/lib
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          # Fetches all history for all tags and branches (critical for semantic-release)
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+          cache-dependency-path: src/lib/package.json
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Test Suite
+        run: npm test
+
+      - name: Run Semantic Release (Version & Publish)
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx semantic-release
