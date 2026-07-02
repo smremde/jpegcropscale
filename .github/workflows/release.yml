@@ -42,7 +42,7 @@ jobs:
         with:
           node-version: 22
           cache: 'npm'
-          cache-dependency-path: src/lib/package.json
+          cache-dependency-path: package.json
 
       - name: Install Dependencies
         run: npm install
