@@ -7,7 +7,7 @@ test/output_web.jpg
 libjpeg-turbo/
 
 # Compiled outputs
-dist/
+dist/**/jpeg_worker.*
 
 # Node modules
 node_modules/
