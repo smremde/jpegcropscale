@@ -1,6 +1,13 @@
 # Test outputs
 test/output.jpg
 test/output_crop.jpg
+test/output_web.jpg
+
+# Dependency source
+libjpeg-turbo/
+
+# Compiled outputs
+dist/
 
 # Node modules
 node_modules/

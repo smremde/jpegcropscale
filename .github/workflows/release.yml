@@ -36,6 +36,11 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
+      - name: Build WebAssembly Binaries (using Docker)
+        run: |
+          docker run --rm -v "$PWD":/src emscripten/emsdk:3.1.64 bash build.sh
+          sudo chown -R $USER:$USER .
+
       - name: Run Test Suite
         run: npm test
 

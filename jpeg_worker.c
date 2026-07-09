@@ -25,7 +25,7 @@ uint8_t* process_jpeg(uint8_t* jpegBuf, unsigned long jpegSize, int downscale, i
     // Perform the lossless crop
     tjTransform(tjInst, jpegBuf, jpegSize, 1, &croppedBuf, &croppedSize, &transform, 0);
     tjDestroy(tjInst);
-.
+
     if (downscale <= 1) {
         *outSize = croppedSize;
         return croppedBuf; // Return the lossless JPEG directly! JS will still free it via free_buffer.
