@@ -1,0 +1,60 @@
+name: Check Upstream Updates
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Every day at midnight UTC
+  workflow_dispatch: # Allows manual triggering via the GitHub UI
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  check-libjpeg:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Get Latest libjpeg-turbo Release Tag
+        id: upstream
+        run: |
+          # Fetch latest stable tag from GitHub Releases API
+          LATEST_TAG=$(curl -s https://api.github.com/repos/libjpeg-turbo/libjpeg-turbo/releases/latest | jq -r .tag_name)
+          if [ -z "$LATEST_TAG" ] || [ "$LATEST_TAG" = "null" ]; then
+            echo "Error: Failed to fetch latest tag from GitHub API"
+            exit 1
+          fi
+          echo "latest=$LATEST_TAG" >> $GITHUB_OUTPUT
+
+      - name: Read Current Pinned Tag in build.sh
+        id: current
+        run: |
+          CURRENT_TAG=$(grep -oP '(?<=--branch )[0-9.]+' build.sh)
+          echo "current=$CURRENT_TAG" >> $GITHUB_OUTPUT
+
+      - name: Create Pull Request for Update
+        if: steps.upstream.outputs.latest != steps.current.outputs.current
+        run: |
+          # Update the tag in build.sh
+          sed -i 's/--branch '"${{ steps.current.outputs.current }}"'/--branch '"${{ steps.upstream.outputs.latest }}"'/g' build.sh
+          
+          # Configure Git
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Commit and Push branch
+          BRANCH_NAME="chore/bump-libjpeg-turbo-${{ steps.upstream.outputs.latest }}"
+          git checkout -b "$BRANCH_NAME"
+          git add build.sh
+          git commit -m "chore(deps): bump libjpeg-turbo to ${{ steps.upstream.outputs.latest }}"
+          git push origin "$BRANCH_NAME" --force
+          
+          # Create PR using GitHub CLI (built-in on GitHub Runners)
+          gh pr create \
+            --title "chore(deps): bump libjpeg-turbo to ${{ steps.upstream.outputs.latest }}" \
+            --body "A new stable release of **libjpeg-turbo** was detected: `${{ steps.upstream.outputs.latest }}`. This PR automatically updates the build pinning. Merging this PR will trigger the automated tests and release pipeline." \
+            --base main \
+            --head "$BRANCH_NAME"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

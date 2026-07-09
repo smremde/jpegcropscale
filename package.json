@@ -2,7 +2,19 @@
   "name": "@smremde/jpegcropscale",
   "version": "1.0.1",
   "description": "High-performance JPEG crop and power-of-two downscale library powered by libjpeg-turbo compiled to WebAssembly.",
-  "main": "index.js",
+  "main": "./dist/node/index.js",
+  "exports": {
+    "node": {
+      "require": "./dist/node/index.js"
+    },
+    "browser": {
+      "import": "./dist/web/index.mjs"
+    },
+    "worker": {
+      "import": "./dist/worker/index.mjs"
+    },
+    "default": "./dist/node/index.js"
+  },
   "scripts": {
     "test": "node test/test.js"
   },
@@ -21,9 +33,7 @@
   "author": "Stephen Remde",
   "license": "MIT",
   "files": [
-    "index.js",
-    "jpeg_worker.js",
-    "jpeg_worker.wasm",
+    "dist/",
     "README.md"
   ],
   "repository": "github:smremde/jpegcropscale",
@@ -34,8 +44,7 @@
   },
   "release": {
     "branches": [
-      "main",
-      "master"
+      "main"
     ],
     "plugins": [
       "@semantic-release/commit-analyzer",
