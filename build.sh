@@ -3,7 +3,7 @@ set -e
 
 # Clone libjpeg-turbo if it doesn't exist
 if [ ! -d "libjpeg-turbo" ]; then
-    git clone --depth 1 --branch 3.0.2 https://github.com/libjpeg-turbo/libjpeg-turbo.git
+    git clone --depth 1 --branch 3.2.0 https://github.com/libjpeg-turbo/libjpeg-turbo.git
 fi
 
 # Build libjpeg-turbo to WASM static library
