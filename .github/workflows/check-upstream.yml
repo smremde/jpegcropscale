@@ -44,15 +44,15 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           
           # Commit and Push branch
-          BRANCH_NAME="chore/bump-libjpeg-turbo-${{ steps.upstream.outputs.latest }}"
+          BRANCH_NAME="fix/bump-libjpeg-turbo-${{ steps.upstream.outputs.latest }}"
           git checkout -b "$BRANCH_NAME"
           git add build.sh
-          git commit -m "chore(deps): bump libjpeg-turbo to ${{ steps.upstream.outputs.latest }}"
+          git commit -m "fix(deps): bump libjpeg-turbo to ${{ steps.upstream.outputs.latest }}"
           git push origin "$BRANCH_NAME" --force
           
           # Create PR using GitHub CLI (built-in on GitHub Runners)
           gh pr create \
-            --title "chore(deps): bump libjpeg-turbo to ${{ steps.upstream.outputs.latest }}" \
+            --title "fix(deps): bump libjpeg-turbo to ${{ steps.upstream.outputs.latest }}" \
             --body "A new stable release of **libjpeg-turbo** was detected: `${{ steps.upstream.outputs.latest }}`. This PR automatically updates the build pinning. Merging this PR will trigger the automated tests and release pipeline." \
             --base main \
             --head "$BRANCH_NAME"
