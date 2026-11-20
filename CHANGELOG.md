@@ -1,3 +1,7 @@
+# Changelog
+
+Release notes for 1.1.0 and later are published on [GitHub Releases](https://github.com/smremde/jpegcropscale/releases). They are generated from the commit history by semantic-release.
+
 # 1.0.0 (2026-07-02)
 
 
