@@ -29,8 +29,8 @@ COMMON_FLAGS=(
   -s SINGLE_FILE=1
   -msimd128
   -O3
-  -s EXPORTED_RUNTIME_METHODS='["ccall", "cwrap", "getValue"]'
-  -s EXPORTED_FUNCTIONS='["_process_jpeg", "_free_buffer", "_malloc", "_free"]'
+  -s EXPORTED_RUNTIME_METHODS='["ccall", "cwrap", "getValue", "UTF8ToString", "HEAPU8", "HEAP32", "HEAPU32"]'
+  -s EXPORTED_FUNCTIONS='["_process_jpeg", "_crop_tiles", "_jpeg_info", "_last_error", "_free_buffer", "_malloc", "_free"]'
 )
 
 # Create output directories
@@ -39,7 +39,9 @@ mkdir -p dist/node dist/web dist/worker
 echo "Compiling Node.js target..."
 emcc jpeg_worker.c libjpeg-turbo/build-wasm/libturbojpeg.a -o dist/node/jpeg_worker.js \
   "${COMMON_FLAGS[@]}" \
-  -s ENVIRONMENT=node
+  -s ENVIRONMENT=node \
+  -s NODEJS_CATCH_EXIT=0 \
+  -s NODEJS_CATCH_REJECTION=0
 
 echo "Compiling Web target..."
 emcc jpeg_worker.c libjpeg-turbo/build-wasm/libturbojpeg.a -o dist/web/jpeg_worker.mjs \

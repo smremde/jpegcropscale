@@ -1,7 +1,7 @@
 {
   "name": "@smremde/jpegcropscale",
   "version": "1.0.1",
-  "description": "High-performance JPEG crop and power-of-two downscale library powered by libjpeg-turbo compiled to WebAssembly.",
+  "description": "High-performance lossless JPEG crop, multi-tile crop and power-of-two downscale library powered by libjpeg-turbo compiled to WebAssembly.",
   "main": "./dist/node/index.js",
   "exports": {
     "node": {
@@ -16,7 +16,7 @@
     "default": "./dist/node/index.js"
   },
   "scripts": {
-    "test": "node test/test.js"
+    "test": "node test/test.js && node --test test/test_tiles.js && node test/test_web.mjs"
   },
   "keywords": [
     "jpeg",
